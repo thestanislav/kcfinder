@@ -23,7 +23,7 @@ if (is_file($customConfig)) {
 }
 
 
-$_CONFIG = array(
+return array(
 
 
 // GENERAL SETTINGS
@@ -115,19 +115,11 @@ $_CONFIG = array(
 
 // THE FOLLOWING SETTINGS CANNOT BE OVERRIDED WITH SESSION SETTINGS
 
-    '_normalizeFilenames' => true,
-    '_check4htaccess' => true,
-    //'_tinyMCEPath' => "/tiny_mce",
-
     '_sessionVar' => "KCFINDER",
-    //'_sessionLifetime' => 30,
-    //'_sessionDir' => "/full/directory/path",
-    //'_sessionDomain' => ".mysite.com",
-    //'_sessionPath' => "/my/path",
-
+    '_check4htaccess' => true,
+    '_normalizeFilenames' => true,
+    '_dropUploadMaxFilesize' => 10485760,
+    //'_tinyMCEPath' => "/tiny_mce",
     //'_cssMinCmd' => "java -jar /path/to/yuicompressor.jar --type css {file}",
     //'_jsMinCmd' => "java -jar /path/to/yuicompressor.jar --type js {file}",
-
 );
-
-return $_CONFIG;

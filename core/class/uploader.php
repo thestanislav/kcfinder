@@ -17,7 +17,7 @@ namespace kcfinder;
 class uploader {
 
 /** Release version */
-    const VERSION = "3.12";
+    const VERSION = "3.20-test2";
 
 /** Config session-overrided settings
   * @var array */
@@ -107,26 +107,10 @@ class uploader {
         if (count($_FILES))
             $this->file = &$_FILES[key($_FILES)];
 
-        // LOAD DEFAULT CONFIGURATION
-        $config = require "conf/config.php";
-
-        // SETTING UP SESSION & CONFIG
-        $session = new session($config);
-        $this->session = $session->getSession();
+        // CONFIG & SESSION SETUP
+        $session = new session("conf/config.php");
         $this->config = $session->getConfig();
-
-        // SECURING THE SESSION
-        $stamp = array(
-            'ip' => $_SERVER['REMOTE_ADDR'],
-            'agent' => md5($_SERVER['HTTP_USER_AGENT'])
-        );
-        if (!isset($this->session['stamp']))
-            $this->session['stamp'] = $stamp;
-        elseif (!is_array($this->session['stamp']) || ($this->session['stamp'] !== $stamp)) {
-            if ($this->session['stamp']['ip'] === $stamp['ip'])
-                session_destroy();
-            die;
-        }
+        $this->session = $session->getSession();
 
         // IMAGE DRIVER INIT
         if (isset($this->config['imageDriversPriority'])) {
@@ -139,7 +123,7 @@ class uploader {
         if ((!isset($driver) || ($driver === false)) &&
             (image::getDriver(array($this->imageDriver)) === false)
         )
-            die("Cannot find any of the supported PHP image extensions!");
+            $this->backMsg("Cannot find any of the supported PHP image extensions!");
 
         // WATERMARK INIT
         if (isset($this->config['watermark']) && is_string($this->config['watermark']))
@@ -195,7 +179,7 @@ class uploader {
         } elseif ($this->config['uploadURL'] == "/") {
             $this->config['uploadDir'] = strlen($this->config['uploadDir'])
                 ? path::normalize($this->config['uploadDir'])
-                : path::normalize($_SERVER['DOCUMENT_ROOT']);
+                : path::normalize(realpath($_SERVER['DOCUMENT_ROOT']));
             $this->typeDir = "{$this->config['uploadDir']}/{$this->type}";
             $this->typeURL = "/{$this->type}";
 
@@ -770,5 +754,3 @@ if (window.opener) window.close();
         return file_get_contents("conf/upload.htaccess");
     }
 }
-
-?>
