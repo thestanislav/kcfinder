@@ -107,8 +107,11 @@ class uploader {
         if (count($_FILES))
             $this->file = &$_FILES[key($_FILES)];
 
+        // LOAD DEFAULT CONFIGURATION
+        $config = require "conf/config.php";
+
         // CONFIG & SESSION SETUP
-        $session = new session("conf/config.php");
+        $session = new session($config);
         $this->config = $session->getConfig();
         $this->session = $session->getSession();
 
