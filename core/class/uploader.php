@@ -602,10 +602,32 @@ class uploader {
             $img->watermark($this->config['watermark']['file'], $left, $top);
         }
 
+        /**
+         * Fixes issue #84 @see https://github.com/sunhater/kcfinder/issues/84
+         * Added a property $imagetype to @see image_gd, so we can keep track of the image type.
+         * Keep in mind that this has not been added for other drivers, and it's fairly basic
+        */
+        $op = "jpeg";
+        $quality = $this->config['jpegQuality'];
+        if (isset($img->imagetype)) {
+            switch ($img->imagetype) {
+                case IMAGETYPE_PNG:
+                    $op = "png";
+                    $quality = null;
+                    break;
+                case IMAGETYPE_GIF:
+                    $op = "gif";
+                    $quality = null;
+                    break;
+                default:
+                case IMAGETYPE_JPEG: // Set above
+            }
+        }
+
         // WRITE TO FILE
-        return $img->output("jpeg", array(
+        return $img->output($op, array(
             'file' => $file,
-            'quality' => $this->config['jpegQuality']
+            'quality' => $quality
         ));
     }
 
