@@ -16,6 +16,13 @@
    even if you are using session configuration.
    See http://kcfinder.sunhater.com/install for setting descriptions */
 
+// custom config file support (eg. for bower support)
+$customConfig = __DIR__ . '/../../kcfinder-config.php';
+if (is_file($customConfig)) {
+    return require_once $customConfig;
+}
+
+
 return array(
 
 
@@ -110,7 +117,7 @@ return array(
 
     '_sessionVar' => "KCFINDER",
     '_check4htaccess' => true,
-    '_normalizeFilenames' => false,
+    '_normalizeFilenames' => true,
     '_dropUploadMaxFilesize' => 10485760,
     //'_tinyMCEPath' => "/tiny_mce",
     //'_cssMinCmd' => "java -jar /path/to/yuicompressor.jar --type css {file}",

@@ -111,10 +111,13 @@ class uploader {
         if (count($_FILES))
             $this->file = &$_FILES[key($_FILES)];
 
+        // LOAD DEFAULT CONFIGURATION
+        $config = require "conf/config.php";
+
         // CONFIG & SESSION SETUP
-        $session = new session("conf/config.php");
+        $session = new session($config);
         $this->config = $session->getConfig();
-        $this->session = &$session->values;
+        $this->session = $session->getSession();
 
         // IMAGE DRIVER INIT
         if (isset($this->config['imageDriversPriority'])) {
@@ -372,17 +375,7 @@ class uploader {
     }
 
     protected function checkFilename($file) {
-
-        if ((basename($file) !== $file) ||
-            (
-                isset($this->config['_normalizeFilenames']) &&
-                $this->config['_normalizeFilenames'] &&
-                preg_match('/[^0-9a-z\.\- _]/si', $file)
-            )
-        )
-            return false;
-
-        return true;
+        return (basename($file) === $file);
     }
 
     protected function checkUploadedFile(array $aFile=null) {
