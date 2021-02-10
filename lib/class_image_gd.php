@@ -222,6 +222,8 @@ class image_gd extends image {
                 ($t == IMAGETYPE_XBM)  ? @imagecreatefromxbm($image)  : false
             ))));
 
+            $this->imagetype = $t;
+
             if ($t == IMAGETYPE_PNG) {
                 imagealphablending($image, false);
                 imagesavealpha($image, true);
@@ -256,6 +258,8 @@ class image_gd extends image {
         return ($img !== false);
     }
 
+    // OWN PROPERTIES
+    public $imagetype = null;
 
     // OWN METHODS
 
