@@ -238,7 +238,7 @@ class image_gd extends image {
     // PSEUDO-ABSTRACT STATIC METHODS
 
     static function available() {
-        return function_exists("imagecreatefromjpeg");
+        return extension_loaded('gd');
     }
 
     static function checkImage($file) {
