@@ -43,7 +43,7 @@ class session
             $session = & $this->config[self::SESSION_VAR];
 
             if (!is_array($session) && !$session instanceof \Traversable) {
-                $session = $this->getDefaultSession()[$session];
+                $session = $this->getDefaultSession()[$session] ?? [];
 
                 if (!is_array($session)) {
                     $session = array();
