@@ -8,7 +8,7 @@ class Yii {
         }
         $current_cwd = getcwd();
         chdir('..');
-        require './vendor/autoload.php';
+        include './vendor/autoload.php';
         $dir = dirname(__DIR__, 2);
         \Yii::createWebApplication($dir . '/protected/config/main.php');
         $state = \Yii::app()->user->getState('id');
@@ -26,7 +26,7 @@ class Yii {
         if (!isset($_SESSION['KCFINDER'])) {
             $_SESSION['KCFINDER'] = array();
         }
-        if(!isset($_SESSION['KCFINDER']['disabled'])) {
+        if (!isset($_SESSION['KCFINDER']['disabled'])) {
             $_SESSION['KCFINDER']['disabled'] = false;
         }
         $_SESSION['KCFINDER']['_check4htaccess'] = false;
@@ -37,4 +37,6 @@ class Yii {
         return true;
     }
 }
-\kcfinder\integration\Yii::checkAuthentication();
+if (!\kcfinder\integration\Yii::checkAuthentication()) {
+    die("NOT AUTHORISED. SESSION TIMED OUT.");
+}
