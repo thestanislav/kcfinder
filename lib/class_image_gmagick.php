@@ -235,7 +235,7 @@ class image_gmagick extends image {
     // PSEUDO-ABSTRACT STATIC METHODS
 
     static function available() {
-        return class_exists("Gmagick");
+        return extension_loaded("gmagick");
     }
 
     static function checkImage($file) {

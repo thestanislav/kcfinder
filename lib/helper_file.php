@@ -138,7 +138,7 @@ class file {
   * @return string */
 
     static function getMimeType($filename, $magic=null) {
-        if (class_exists("finfo")) {
+        if (extension_loaded("fileinfo")) {
             $finfo = new \finfo(FILEINFO_MIME, $magic);
             if ($finfo) {
                 $mime = $finfo->file($filename);

@@ -237,7 +237,7 @@ class image_imagick extends image {
     // PSEUDO-ABSTRACT STATIC METHODS
 
     static function available() {
-        return class_exists("\\Imagick");
+        return extension_loaded("imagick");
     }
 
     static function checkImage($file) {
